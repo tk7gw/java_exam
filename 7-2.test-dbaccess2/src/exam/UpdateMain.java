@@ -17,5 +17,8 @@ public class UpdateMain {
 
         MemberDao dao = new MemberDao();
         dao.update(member);
+
+		System.out.println("update終了");
+
     }
 }

@@ -16,6 +16,9 @@ import dto.Member;
  *
  */
 public class MemberDao {
+
+	static final String TABLE_NAME = "test_members";
+
 	/**
 	 * 全件検索を行います.
 	 * 
@@ -23,25 +26,20 @@ public class MemberDao {
 	 */
 	public List<Member> findAll() {
 		Connection con = DBManager.createConnection();
-		String sql = """
-				SELECT id, name, age, dep_id
-				FROM test_members
-				ORDER BY test_members DESC
-				""";
-
+		String sql = "SELECT id,name,age,dep_id FROM " + TABLE_NAME + " ORDER BY age DESC";
 		List<Member> list = new ArrayList<>();
-
 		try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
+
 			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				Member member = new Member();
-				member.setId(rs.getInt("id"));
-				member.setName(rs.getString("name"));
-				member.setAge(rs.getInt("age"));
-				member.setDepId(rs.getInt("dep_id"));
-				list.add(member);
+				Member entity = new Member();
+				entity.setId(rs.getInt("id"));
+				entity.setName(rs.getString("name"));
+				entity.setAge(rs.getInt("age"));
+				entity.setDepId(rs.getInt("dep_id"));
+				list.add(entity);
 			}
 			return list;
 		} catch (Exception e) {
@@ -60,19 +58,21 @@ public class MemberDao {
 	 */
 	public Member load(int id) {
 		Connection con = DBManager.createConnection();
-		String sql = "SELECT id, name, age, dep_id FROM test_members WHERE id = ?";
+		String sql = "SELECT id,name,age,dep_id FROM " + TABLE_NAME + " WHERE id = ?;";
 		try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
+
 			pstmt.setInt(1, id);
 
 			ResultSet rs = pstmt.executeQuery();
+
 			if (rs.next()) {
-				Member member = new Member();
-				member.setId(rs.getInt("id"));
-				member.setName(rs.getString("name"));
-				member.setAge(rs.getInt("age"));
-				member.setDepId(rs.getInt("dep_id"));
-				return member;
+				Member entity = new Member();
+				entity.setId(rs.getInt("id"));
+				entity.setName(rs.getString("name"));
+				entity.setAge(rs.getInt("age"));
+				entity.setDepId(rs.getInt("dep_id"));
+				return entity;
 			}
 			return null;
 		} catch (Exception e) {
@@ -90,9 +90,10 @@ public class MemberDao {
 	 */
 	public void insert(Member member) {
 		Connection con = DBManager.createConnection();
-		String sql = "INSERT INTO members (name, age, dep_id) VALUES (?, ?, ?)";
+		String sql = "INSERT INTO " + TABLE_NAME + " (name,age,dep_id) VALUES(?,?,?);";
 		try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
+
 			pstmt.setString(1, member.getName());
 			pstmt.setInt(2, member.getAge());
 			pstmt.setInt(3, member.getDepId());
@@ -106,13 +107,19 @@ public class MemberDao {
 		}
 	}
 
-	public void update(Member member) {
+	/**
+	 * メンバー情報を更新します
+	 * 
+	 * @param entity 更新する情報をもったentity
+	 */
+	public void update(Member entity) {
 		Connection con = DBManager.createConnection();
-		String sql = "UPDATE test_members SET age = ? WHERE id = ?";
+		String sql = "UPDATE " + TABLE_NAME + " SET age = ? WHERE id = ?;";
 		try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, member.getAge());
-			pstmt.setInt(2, member.getId());
+
+			pstmt.setInt(1, entity.getAge());
+			pstmt.setInt(2, entity.getId());
 
 			pstmt.executeUpdate();
 		} catch (Exception e) {
@@ -122,4 +129,5 @@ public class MemberDao {
 			DBManager.closeConnection(con);
 		}
 	}
+
 }
