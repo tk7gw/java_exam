@@ -1,6 +1,5 @@
 package exam;
 
-
 import dao.MemberDao;
 import dto.Member;
 
@@ -11,13 +10,17 @@ import dto.Member;
  *
  */
 public class InsertMain {
-    public static void main(String[] args) {
-        Member member = new Member();
-        member.setName("シロー");
-        member.setAge(54);
-        member.setDepId(3);
 
-        MemberDao dao = new MemberDao();
-        dao.insert(member);
-    }
+	public static void main(String[] args) {
+		MemberDao dao = new MemberDao();
+		Member entity = new Member();
+
+		entity.setName("シロー");
+		entity.setAge(54);
+		entity.setDepId(3);
+		dao.insert(entity);
+
+		System.out.println("insert終了");
+	}
+
 }
