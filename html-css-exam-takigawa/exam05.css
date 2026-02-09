@@ -1,0 +1,41 @@
+@charset "utf-8";
+
+header{
+    width: 900px;
+    height: 80px;
+    background-color: rgb(255, 255, 188);
+}
+
+.menu{
+    width: 150px;
+    height: 500px;
+    background-color: rgb(255, 191, 191);
+}
+
+.contents{
+    width: 600px;
+    height: 500px;
+    background-color: rgb(181, 181, 252);
+}
+
+.pr{
+    width: 150px;
+    height: 500px;
+    background-color: rgb(182, 255, 200);
+}
+
+footer{
+    width: 900px;
+    height: 80px;
+    background-color: rgb(149, 241, 255);
+}
+
+.main {
+    display: flex;
+}
+
+.center {
+display: flex;
+justify-content: center;
+align-items: center;
+}
